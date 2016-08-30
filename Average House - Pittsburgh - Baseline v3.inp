@@ -1,0 +1,1887 @@
+INPUT ..
+
+
+$ ---------------------------------------------------------
+$              Abort, Diagnostics
+$ ---------------------------------------------------------
+
+
+
+
+$ ---------------------------------------------------------
+$              Global Parameters
+$ ---------------------------------------------------------
+
+PARAMETER
+   "WWR"               = 0.282  ..
+PARAMETER
+   "Typical_Zone_Flow" = 150  ..
+
+
+$ ---------------------------------------------------------
+$              Title, Run Periods, Design Days, Holidays
+$ ---------------------------------------------------------
+
+TITLE           
+   LINE-1           = *Average House 4*
+   ..
+
+"Entire Year" = RUN-PERIOD-PD
+   BEGIN-MONTH      = 1
+   BEGIN-DAY        = 1
+   BEGIN-YEAR       = 2015
+   END-MONTH        = 12
+   END-DAY          = 31
+   END-YEAR         = 2015
+   ..
+
+
+"Standard US Holidays" = HOLIDAYS        
+   LIBRARY-ENTRY "US"
+   ..
+
+
+$ ---------------------------------------------------------
+$              Compliance Data
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Site and Building Data
+$ ---------------------------------------------------------
+
+"Site Data" = SITE-PARAMETERS 
+   ALTITUDE         = 1150
+   ..
+
+"Building Data" = BUILD-PARAMETERS
+   HOLIDAYS         = "Standard US Holidays"
+   ..
+
+
+
+PROJECT-DATA    
+   ..
+
+
+$ ---------------------------------------------------------
+$              Materials / Layers / Constructions
+$ ---------------------------------------------------------
+
+"EL1 IWall Cons Mat 2 (0.91)" = MATERIAL        
+   TYPE             = RESISTANCE
+   RESISTANCE       = 0.91
+   ..
+"EL2 UFlr Cons Mat 2 (27.44)" = MATERIAL        
+   TYPE             = RESISTANCE
+   RESISTANCE       = 27.44
+   ..
+"AG Insulation" = MATERIAL        
+   TYPE             = RESISTANCE
+   RESISTANCE       = 12.4
+   ..
+"Roof Insulation" = MATERIAL        
+   TYPE             = RESISTANCE
+   RESISTANCE       = 35
+   ..
+"Slab Insulation" = MATERIAL        
+   TYPE             = RESISTANCE
+   RESISTANCE       = 11
+   ..
+
+"EL1 IWall Cons Layers" = LAYERS          
+   MATERIAL         = ( "GypBd 1/2in (GP01)", "EL1 IWall Cons Mat 2 (0.91)", 
+         "GypBd 1/2in (GP01)" )
+   ..
+"EL2 GFlr Cons Layers" = LAYERS          
+   MATERIAL         = ( "Plywd 5/8in (PW04)", "EL2 UFlr Cons Mat 2 (27.44)", 
+         "Plywd 1in (PW06)", "Carpet & Fiber Pad (CP01)" )
+   ..
+"AG Wall Layer" = LAYERS          
+   MATERIAL         = ( "Plywd 5/8in (PW04)", "Insul Bd 1/2in (IN61)", 
+         "AG Insulation", "GypBd 1/2in (GP01)" )
+   ..
+"Roof Layer" = LAYERS          
+   MATERIAL         = ( "Blt-Up Roof 3/8in (BR01)", "Bldg Paper Felt (BP01)", 
+         "Plywd 5/8in (PW04)", "Roof Insulation" )
+   ..
+"Slab Layer" = LAYERS          
+   MATERIAL         = ( "Plywd 5/8in (PW04)", "Slab Insulation", 
+         "Plywd 1in (PW06)", "Carpet & Fiber Pad (CP01)" )
+   ..
+
+"EL1 IWall Construction" = CONSTRUCTION    
+   TYPE             = LAYERS
+   LAYERS           = "EL1 IWall Cons Layers"
+   ..
+"EL2 GFlr Construction" = CONSTRUCTION    
+   TYPE             = LAYERS
+   LAYERS           = "EL2 GFlr Cons Layers"
+   ..
+"AG Wall Construction" = CONSTRUCTION    
+   TYPE             = LAYERS
+   LAYERS           = "AG Wall Layer"
+   ..
+"Roof Construction" = CONSTRUCTION    
+   TYPE             = LAYERS
+   LAYERS           = "Roof Layer"
+   ..
+"Slab Construction" = CONSTRUCTION    
+   TYPE             = LAYERS
+   LAYERS           = "Slab Layer"
+   ..
+
+
+$ ---------------------------------------------------------
+$              Glass Type Codes
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Glass Types
+$ ---------------------------------------------------------
+
+"ASHRAE 2007" = GLASS-TYPE      
+   TYPE             = SHADING-COEF
+   SHADING-COEF     = 0.465
+   GLASS-CONDUCT    = 0.43
+   ..
+
+
+$ ---------------------------------------------------------
+$              Window Layers
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Lamps / Luminaries / Lighting Systems
+$ ---------------------------------------------------------
+
+
+
+
+
+$ ---------------------------------------------------------
+$              Day Schedules
+$ ---------------------------------------------------------
+
+"EL1 Bldg Occup WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.9, &D, &D, &D, &D, &D, 0.702, 0.402, 0.3, &D, &D, 
+         &D, &D, &D, &D, &D, 0.498, 0.9 )
+   ..
+"EL1 Bldg Occup WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.9, &D, &D, &D, &D, &D, 0.895, 0.8462, 0.695, 0.5286, 
+         0.5, &D, &D, &D, 0.5286, 0.695, 0.8462, 0.895, 0.9 )
+   ..
+"EL1 Bldg Occup HDD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0 )
+   ..
+"ZG0-S1 (PVAVS) P-Inf WD" = DAY-SCHEDULE-PD
+   TYPE             = MULTIPLIER
+   VALUES           = ( 0.5, &D, &D, &D, &D, 0.944, 1.25, &D, 1.052, 1, &D, 
+         &D, &D, &D, &D, 1.148, 1.25, &D, 0.5 )
+   ..
+"ZG0-S1 (PVAVS) P-Inf WEH" = DAY-SCHEDULE-PD
+   TYPE             = MULTIPLIER
+   VALUES           = ( 0.5, &D, &D, &D, &D, &D, 0.5113, 0.95, 1.25, 1.145, 1, 
+         &D, &D, &D, 1.145, 1.25, 0.95, 0.5113, 0.5 )
+   ..
+"ZG0-S1 (PVAVS) P-Inf HDD" = DAY-SCHEDULE-PD
+   TYPE             = MULTIPLIER
+   VALUES           = ( 0.5, &D, &D, &D, &D, &D, &D, &D, &D, 1, &D, &D, &D, 
+         &D, &D, &D, 0.5 )
+   ..
+"ZG0-S1 (PVAVS) C-Inf WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.5, &D, &D, &D, &D, &D, &D, 1, &D, &D, &D, &D, &D, 
+         &D, &D, &D, &D, 0.5 )
+   ..
+"ZG0-S1 (PVAVS) C-Inf WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.5, &D, &D, &D, &D, &D, &D, &D, &D, 1, &D, &D, &D, 
+         &D, &D, &D, 0.5 )
+   ..
+"S1 Sys1 (PVAVS) Fan WD" = DAY-SCHEDULE-PD
+   TYPE             = ON/OFF/FLAG
+   VALUES           = ( 1, &D, &D, &D, &D, &D, &D, &D, &D, &D, 0, &D, &D, &D, 
+         &D, &D, &D, 1 )
+   ..
+"S1 Sys1 (PVAVS) Fan WEH" = DAY-SCHEDULE-PD
+   TYPE             = ON/OFF/FLAG
+   VALUES           = ( 1 )
+   ..
+"S1 Sys1 (PVAVS) Cool All" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 78 )
+   ..
+"S1 Sys1 (PVAVS) Heat All" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 68 )
+   ..
+"S1 EL1 Sys1 (PVAVS) (G) CRS-D" = DAY-SCHEDULE-PD
+   TYPE             = RESET-TEMP
+   OUTSIDE-HI       = 80
+   OUTSIDE-LO       = 60
+   SUPPLY-HI        = 65
+   SUPPLY-LO        = 55
+   ..
+"S1 EL2 Sys1 (PVAVS) (G) CRS-D" = DAY-SCHEDULE-PD
+   TYPE             = RESET-TEMP
+   OUTSIDE-HI       = 80
+   OUTSIDE-LO       = 60
+   SUPPLY-HI        = 65
+   SUPPLY-LO        = 55
+   ..
+"Bedroom Weekday Cooling" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 74, &D, &D, &D, &D, &D, &D, &D, &D, 80, &D, &D, &D, 
+         &D, &D, &D, &D, &D, &D, 74 )
+   ..
+"Bedroom Weekend Cooling" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 74, &D, &D, &D, &D, &D, &D, &D, &D, &D, 80, &D, &D, 
+         &D, &D, &D, &D, &D, &D, 74 )
+   ..
+"Cool All" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 74 )
+   ..
+"Common Weekend Cooling" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 80, &D, &D, &D, &D, &D, &D, &D, 74, &D, &D, &D, &D, 
+         &D, &D, &D, &D, &D, &D, &D, 80 )
+   ..
+"Kitchen Weekday Cooling" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 80, &D, &D, &D, &D, &D, &D, &D, 74, &D, 80, &D, &D, 
+         &D, &D, &D, &D, 74, &D, &D, 80 )
+   ..
+"Living Room Weekday Cooling" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 80, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, 
+         &D, &D, &D, &D, 74, &D, &D, 80 )
+   ..
+"Bedroom Weekday Heating" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 70, &D, &D, &D, &D, &D, &D, &D, &D, 65, &D, &D, &D, 
+         &D, &D, &D, &D, &D, &D, 70 )
+   ..
+"Bedroom Weekend Heating" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 70, &D, &D, &D, &D, &D, &D, &D, &D, &D, 65, &D, &D, 
+         &D, &D, &D, &D, &D, &D, 70 )
+   ..
+"Heat All" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 70 )
+   ..
+"Common Weekend Heating" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 65, &D, &D, &D, &D, &D, &D, &D, 70, &D, &D, &D, &D, 
+         &D, &D, &D, &D, &D, &D, &D, 65 )
+   ..
+"Kitchen Weekday Heating" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 65, &D, &D, &D, &D, &D, &D, &D, 70, &D, 65, &D, &D, 
+         &D, &D, &D, &D, 70, &D, &D, 65 )
+   ..
+"Living Room Weekday Heating" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 65, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, 
+         &D, &D, &D, &D, 70, &D, &D, 65 )
+   ..
+"No VAV Cooling Day" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 74, &D, &D, &D, &D, &D, &D, &D, &D, &D, 80, &D, &D, 
+         &D, &D, &D, &D, 74 )
+   ..
+"No VAV Heating Day" = DAY-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   VALUES           = ( 70, &D, &D, &D, &D, &D, &D, &D, &D, &D, 65, &D, &D, 
+         &D, &D, &D, &D, 70 )
+   ..
+"Bedroom Occ WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 1, &D, &D, &D, &D, &D, &D, &D, &D, 0, &D, &D, &D, &D, 
+         &D, &D, &D, &D, &D, 1 )
+   ..
+"Common Occ WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0, &D, &D, &D, &D, &D, &D, &D, 1, &D, &D, &D, &D, &D, 
+         &D, &D, &D, &D, &D, &D, 0 )
+   ..
+"Bedroom Occ WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 1, &D, &D, &D, &D, &D, &D, &D, &D, &D, 0, &D, &D, &D, 
+         &D, &D, &D, &D, &D, 1 )
+   ..
+"Kitchen Occ WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0, &D, &D, &D, &D, &D, &D, &D, 1, &D, 0, &D, &D, &D, 
+         &D, &D, &D, 1, &D, &D, 0 )
+   ..
+"Living Room Occ WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, 
+         &D, &D, &D, 1, &D, &D, 0 )
+   ..
+"Master Bedroom Occ WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 1 )
+   ..
+"Bathroom Occ Typ" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.3 )
+   ..
+"Bedroom LTG WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0, &D, &D, &D, &D, &D, &D, 1, &D, &D, 0, &D, &D, &D, 
+         &D, &D, &D, &D, &D, 1, &D, &D, 0 )
+   ..
+"Master Bedroom LTG WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 1 )
+   ..
+"Bedroom LTG WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0, &D, &D, &D, &D, &D, &D, 1, &D, &D, &D, 0, &D, &D, 
+         &D, &D, &D, &D, &D, 1, &D, &D, 0 )
+   ..
+"DHW_Daily" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.05, &D, &D, &D, &D, &D, 0.3, &D, 0.4, 0.3, &D, 0.35, 
+         0.4, 0.35, &D, 0.3, &D, 0.5, &D, 0.4, 0.35, 0.45, 0.3, 0.05 )
+   ..
+"Heating Cooling On" = DAY-SCHEDULE-PD
+   TYPE             = ON/OFF
+   VALUES           = ( 1 )
+   ..
+"Heating Cooling Off" = DAY-SCHEDULE-PD
+   TYPE             = ON/OFF
+   VALUES           = ( 0 )
+   ..
+"ON_ALL" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 1 )
+   ..
+"PlugLoad Kitch WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.05, &D, &D, &D, &D, &D, &D, &D, 1, &D, 0.05, &D, &D, 
+         &D, &D, &D, &D, 1, &D, &D, 0.05 )
+   ..
+"PlugLoad Living WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.05, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, &D, 
+         &D, &D, &D, &D, 1, &D, &D, 0.05 )
+   ..
+"PlugLoad Bedroom WD" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.05, &D, &D, &D, &D, &D, &D, 1, &D, &D, 0.05, &D, &D, 
+         &D, &D, &D, &D, &D, &D, 1, &D, &D, 0.05 )
+   ..
+"PlugLoad Comm WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.05, &D, &D, &D, &D, &D, &D, &D, 1, &D, &D, &D, &D, 
+         &D, &D, &D, &D, &D, &D, &D, 0.05 )
+   ..
+"PlugLoad Bedroom WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 0.05, &D, &D, &D, &D, &D, &D, 1, &D, &D, &D, 0.05, &D, 
+         &D, &D, &D, &D, &D, &D, 1, &D, &D, 0.05 )
+   ..
+"PlugLoad MasterBed WEH" = DAY-SCHEDULE-PD
+   TYPE             = FRACTION
+   VALUES           = ( 1 )
+   ..
+
+$ ---------------------------------------------------------
+$              Week Schedules
+$ ---------------------------------------------------------
+
+"EL1 Bldg Occup Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "EL1 Bldg Occup WD", &D, &D, &D, &D, 
+         "EL1 Bldg Occup WEH", &D, &D, "EL1 Bldg Occup HDD", 
+         "EL1 Bldg Occup WEH" )
+   ..
+"ZG0-S1 (PVAVS) P-Inf Wk" = WEEK-SCHEDULE-PD
+   TYPE             = MULTIPLIER
+   DAY-SCHEDULES    = ( "ZG0-S1 (PVAVS) P-Inf WD", &D, &D, &D, &D, 
+         "ZG0-S1 (PVAVS) P-Inf WEH", &D, &D, "ZG0-S1 (PVAVS) P-Inf HDD", 
+         "ZG0-S1 (PVAVS) P-Inf WEH" )
+   ..
+"ZG0-S1 (PVAVS) C-Inf Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "ZG0-S1 (PVAVS) C-Inf WD", &D, &D, &D, &D, 
+         "ZG0-S1 (PVAVS) C-Inf WEH", &D, &D, "ZG0-S1 (PVAVS) C-Inf WEH", 
+         "ZG0-S1 (PVAVS) C-Inf WEH" )
+   ..
+"S1 Sys1 (PVAVS) Fan Wk" = WEEK-SCHEDULE-PD
+   TYPE             = ON/OFF/FLAG
+   DAY-SCHEDULES    = ( "S1 Sys1 (PVAVS) Fan WD", &D, &D, &D, &D, 
+         "S1 Sys1 (PVAVS) Fan WEH", &D, &D, "S1 Sys1 (PVAVS) Fan WEH", 
+         "S1 Sys1 (PVAVS) Fan WEH" )
+   ..
+"S1 Sys1 (PVAVS) Cool Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "S1 Sys1 (PVAVS) Cool All" )
+   ..
+"S1 Sys1 (PVAVS) Heat Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "S1 Sys1 (PVAVS) Heat All" )
+   ..
+"S1 EL1 Sys1 (PVAVS) (G) CRS-W" = WEEK-SCHEDULE-PD
+   TYPE             = RESET-TEMP
+   DAY-SCHEDULES    = ( "S1 EL1 Sys1 (PVAVS) (G) CRS-D" )
+   ..
+"S1 EL2 Sys1 (PVAVS) (G) CRS-W" = WEEK-SCHEDULE-PD
+   TYPE             = RESET-TEMP
+   DAY-SCHEDULES    = ( "S1 EL2 Sys1 (PVAVS) (G) CRS-D" )
+   ..
+"Bedroom Cool Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Bedroom Weekday Cooling", &D, &D, &D, &D, 
+         "Bedroom Weekend Cooling" )
+   ..
+"Kitchen Cool Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Kitchen Weekday Cooling", &D, &D, &D, &D, 
+         "Common Weekend Cooling" )
+   ..
+"Living Room Cooling Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Living Room Weekday Cooling", &D, &D, &D, &D, 
+         "Common Weekend Cooling" )
+   ..
+"Cool All Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Cool All", &D, &D, &D, &D, "Cool All" )
+   ..
+"Master Bedroom Cool Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Bedroom Weekday Cooling", &D, &D, &D, &D, "Cool All" )
+   ..
+"Bedroom Heat Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Bedroom Weekday Heating", &D, &D, &D, &D, 
+         "Bedroom Weekend Heating" )
+   ..
+"Kitchen Heat Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Kitchen Weekday Heating", &D, &D, &D, &D, 
+         "Common Weekend Heating" )
+   ..
+"Living Room Heat Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Living Room Weekday Heating", &D, &D, &D, &D, 
+         "Common Weekend Heating" )
+   ..
+"Heat All Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Heat All", &D, &D, &D, &D, "Heat All" )
+   ..
+"Master Bedroom Heat Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "Bedroom Weekday Heating", &D, &D, &D, &D, "Heat All" )
+   ..
+"No VAV Cool All Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "No VAV Cooling Day", &D, &D, &D, &D, "Cool All" )
+   ..
+"No VAV Heat All Wk" = WEEK-SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   DAY-SCHEDULES    = ( "No VAV Heating Day", &D, &D, &D, &D, "Heat All" )
+   ..
+"Bedroom Occ Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "Bedroom Occ WD", &D, &D, &D, &D, "Bedroom Occ WEH", 
+         &D, &D, "Bedroom Occ WEH", "Bedroom Occ WEH" )
+   ..
+"Kitchen Occ Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "Kitchen Occ WD", &D, &D, &D, &D, "Common Occ WEH", 
+         &D, &D, "Common Occ WEH", "Common Occ WEH" )
+   ..
+"Living Room Occ Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "Living Room Occ WD", &D, &D, &D, &D, 
+         "Common Occ WEH", &D, &D, "Common Occ WEH", "Common Occ WEH" )
+   ..
+"Master Bedroom Occ Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "Bedroom Occ WD", &D, &D, &D, &D, 
+         "Master Bedroom Occ WEH", &D, &D, "Master Bedroom Occ WEH" )
+   ..
+"Bathroom Occ Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "Bathroom Occ Typ", &D, &D, &D, &D, 
+         "Bathroom Occ Typ" )
+   ..
+"Bedroom LTG Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "Bedroom LTG WD", &D, &D, &D, &D, "Bedroom LTG WEH", 
+         &D, &D, "Bedroom LTG WEH", "Bedroom LTG WEH" )
+   ..
+"Master Bedroom LTG Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "Bedroom LTG WD", &D, &D, &D, &D, 
+         "Master Bedroom LTG WEH", &D, &D, "Master Bedroom LTG WEH", 
+         "Master Bedroom LTG WEH" )
+   ..
+"DHW_Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "DHW_Daily", &D, &D, &D, &D, "DHW_Daily" )
+   ..
+"Heating Cooling On Wk" = WEEK-SCHEDULE-PD
+   TYPE             = ON/OFF
+   DAY-SCHEDULES    = ( "Heating Cooling On", &D, &D, &D, &D, 
+         "Heating Cooling On" )
+   ..
+"Heating Cooling Off Wk" = WEEK-SCHEDULE-PD
+   TYPE             = ON/OFF
+   DAY-SCHEDULES    = ( "Heating Cooling Off", &D, &D, &D, &D, 
+         "Heating Cooling Off" )
+   ..
+"ON_ALL_Wk" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "ON_ALL", &D, &D, &D, &D, "ON_ALL" )
+   ..
+"PlugLoad Kitch WK" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "PlugLoad Kitch WD", &D, &D, &D, &D, 
+         "PlugLoad Comm WEH", &D, &D, "PlugLoad Comm WEH", 
+         "PlugLoad Comm WEH" )
+   ..
+"PlugLoad Living WK" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "PlugLoad Living WD", &D, &D, &D, &D, 
+         "PlugLoad Comm WEH", &D, &D, "PlugLoad Comm WEH", 
+         "PlugLoad Comm WEH" )
+   ..
+"PlugLoad Bedroom WK" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "PlugLoad Bedroom WD", &D, &D, &D, &D, 
+         "PlugLoad Bedroom WEH", &D, &D, "PlugLoad Bedroom WEH", 
+         "PlugLoad Bedroom WEH" )
+   ..
+"PlugLoad MasterBed WK" = WEEK-SCHEDULE-PD
+   TYPE             = FRACTION
+   DAY-SCHEDULES    = ( "PlugLoad Bedroom WD", &D, &D, &D, &D, 
+         "PlugLoad MasterBed WEH", &D, &D, "PlugLoad MasterBed WEH", 
+         "PlugLoad MasterBed WEH" )
+   ..
+
+$ ---------------------------------------------------------
+$              Annual Schedules
+$ ---------------------------------------------------------
+
+"EL1 Bldg Occup Sch" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "EL1 Bldg Occup Wk" )
+   ..
+"ZG0-S1 (PVAVS) P-Inf Sch" = SCHEDULE-PD
+   TYPE             = MULTIPLIER
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "ZG0-S1 (PVAVS) P-Inf Wk" )
+   ..
+"ZG0-S1 (PVAVS) C-Inf Sch" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "ZG0-S1 (PVAVS) C-Inf Wk" )
+   ..
+"S1 Sys1 (PVAVS) Fan Sch" = SCHEDULE-PD
+   TYPE             = ON/OFF/FLAG
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "S1 Sys1 (PVAVS) Fan Wk" )
+   ..
+"S1 Sys1 (PVAVS) Cool Sch" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "S1 Sys1 (PVAVS) Cool Wk" )
+   ..
+"S1 Sys1 (PVAVS) Heat Sch" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "S1 Sys1 (PVAVS) Heat Wk" )
+   ..
+"S1 EL1 Sys1 (PVAVS) (G) CRS" = SCHEDULE-PD
+   TYPE             = RESET-TEMP
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "S1 EL1 Sys1 (PVAVS) (G) CRS-W" )
+   ..
+"S1 EL2 Sys1 (PVAVS) (G) CRS" = SCHEDULE-PD
+   TYPE             = RESET-TEMP
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "S1 EL2 Sys1 (PVAVS) (G) CRS-W" )
+   ..
+"Bedroom Cooling Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Bedroom Cool Wk" )
+   ..
+"Kitchen Cooling Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Kitchen Cool Wk" )
+   ..
+"Living Room Cooling Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Living Room Cooling Wk" )
+   ..
+"Cool All Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Cool All Wk" )
+   ..
+"Master Bedroom Cooling Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Master Bedroom Cool Wk" )
+   ..
+"Bedroom Heating Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Bedroom Heat Wk" )
+   ..
+"Kitching Heating Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Kitchen Heat Wk" )
+   ..
+"Living Room Heating Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Living Room Heat Wk" )
+   ..
+"Heat All Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Heat All Wk" )
+   ..
+"Master Bedroom Heating Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Master Bedroom Heat Wk" )
+   ..
+"No VAV Cooling Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "No VAV Cool All Wk" )
+   ..
+"No VAV Heating Yrly" = SCHEDULE-PD
+   TYPE             = TEMPERATURE
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "No VAV Heat All Wk" )
+   ..
+"Bedroom Occ Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Bedroom Occ Wk" )
+   ..
+"Kitchen Occ Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Kitchen Occ Wk" )
+   ..
+"Living Room Occ Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Living Room Occ Wk" )
+   ..
+"Master Bedroom Occ Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Master Bedroom Occ Wk" )
+   ..
+"Bathroom Occ Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Bathroom Occ Wk" )
+   ..
+"Bedroom LTG Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Bedroom LTG Wk" )
+   ..
+"Master Bedroom LTG Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "Master Bedroom LTG Wk" )
+   ..
+"APARTMENTS DHW" = SCHEDULE-PD
+   LIBRARY-ENTRY "APARTMENTS DHW"
+   ..
+"DHW_Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "DHW_Wk" )
+   ..
+"Heating Yrly" = SCHEDULE-PD
+   TYPE             = ON/OFF
+   MONTH            = ( 3, 9, 12 )
+   DAY              = ( 15, 30, 31 )
+   WEEK-SCHEDULES   = ( "Heating Cooling On Wk", "Heating Cooling Off Wk", 
+         "Heating Cooling On Wk" )
+   ..
+"ON_ALL_YR" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "ON_ALL_Wk" )
+   ..
+"PlugLoad Kitchen Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "PlugLoad Kitch WK" )
+   ..
+"PlugLoad Living Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "PlugLoad Living WK" )
+   ..
+"PlugLoad Bedroom Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "PlugLoad Bedroom WK" )
+   ..
+"PlugLoad MasterBed Yrly" = SCHEDULE-PD
+   TYPE             = FRACTION
+   MONTH            = ( 12 )
+   DAY              = ( 31 )
+   WEEK-SCHEDULES   = ( "PlugLoad MasterBed WK" )
+   ..
+
+
+$ ---------------------------------------------------------
+$              Polygons
+$ ---------------------------------------------------------
+
+"EL1 Floor Polygon" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 0, 34.5 )
+   V3               = ( -34.8, 34.5 )
+   V4               = ( -34.8, 12.2 )
+   V5               = ( -38.2, 12.2 )
+   V6               = ( -38.2, -0.3 )
+   V7               = ( -12.2, -0.3 )
+   V8               = ( -12.2, 0 )
+   ..
+"EL1 Space Polygon 1" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 12.5, 0 )
+   V3               = ( 12.5, 22.3 )
+   V4               = ( 0, 22.3 )
+   ..
+"EL1 Space Polygon 2" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 22.3, 0 )
+   V3               = ( 22.3, 22.3 )
+   V4               = ( -0, 22.3 )
+   ..
+"EL1 Space Polygon 3" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 26, 0 )
+   V3               = ( 26, 0.3 )
+   V4               = ( 26, 12.5 )
+   V5               = ( 15.9, 12.5 )
+   V6               = ( 3.4, 12.5 )
+   V7               = ( 0, 12.5 )
+   ..
+"EL1 Space Polygon 4" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 12.2, 0 )
+   V3               = ( 12.2, 12.2 )
+   V4               = ( 0, 12.2 )
+   ..
+"EL2 Floor Polygon" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 0, 34.5 )
+   V3               = ( -34.8, 34.5 )
+   V4               = ( -34.8, 12.2 )
+   V5               = ( -35.8, 12.2 )
+   V6               = ( -35.8, -0.3 )
+   V7               = ( -12.2, -0.3 )
+   V8               = ( -12.2, 0 )
+   ..
+"EL2 Space Polygon 1" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 12.5, 0 )
+   V3               = ( 12.5, 23.6 )
+   V4               = ( 12.2, 23.6 )
+   V5               = ( 0, 23.6 )
+   V6               = ( 0, 12.6 )
+   V7               = ( 0, 1 )
+   ..
+"EL2 Space Polygon 2" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 12.2, 0 )
+   V3               = ( 12.2, 12.2 )
+   V4               = ( 0.6, 12.2 )
+   V5               = ( 0, 12.2 )
+   ..
+"EL2 Space Polygon 3" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 11.6, 0 )
+   V3               = ( 11.6, 22.3 )
+   V4               = ( 0, 22.3 )
+   ..
+"EL2 Space Polygon 4" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 11.6, 0 )
+   V3               = ( 11.6, 22.3 )
+   V4               = ( -0, 22.3 )
+   ..
+"EL2 Space Polygon 5" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 11.6, 0 )
+   V3               = ( 11.6, 22.3 )
+   V4               = ( -0, 22.3 )
+   ..
+"EL1 Space Polygon 1 - SMirro" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 22.3, 0 )
+   V3               = ( 22.3, 12.5 )
+   V4               = ( 0, 12.5 )
+   ..
+"EL1 Space Polygon 2 - SMirro" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 22.3, -0 )
+   V3               = ( 22.3, 22.3 )
+   V4               = ( 0, 22.3 )
+   ..
+"EL1 Space Polygon 3 - SMirro" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 12.5, 0 )
+   V3               = ( 12.5, 3.4 )
+   V4               = ( 12.5, 15.9 )
+   V5               = ( 12.5, 26 )
+   V6               = ( 0.3, 26 )
+   V7               = ( 0, 26 )
+   ..
+"EL1 Space Polygon 4 - SMirro" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 12.2, 0 )
+   V3               = ( 12.2, 12.2 )
+   V4               = ( 0, 12.2 )
+   ..
+"EL2 Space Polygon 1 - SMirro" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 1, 0 )
+   V3               = ( 12.6, 0 )
+   V4               = ( 23.6, 0 )
+   V5               = ( 23.6, 12.2 )
+   V6               = ( 23.6, 12.5 )
+   V7               = ( 0, 12.5 )
+   ..
+"EL2 Space Polygon 2 - SMirro" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 12.2, 0 )
+   V3               = ( 12.2, 0.6 )
+   V4               = ( 12.2, 12.2 )
+   V5               = ( 0, 12.2 )
+   ..
+"EL2 Space Polygon 3 - SMirro" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 22.3, 0 )
+   V3               = ( 22.3, 11.6 )
+   V4               = ( 0, 11.6 )
+   ..
+"Polygon 19" = POLYGON         
+   V1               = ( 0, 0 )
+   V2               = ( 2.4, 0 )
+   V3               = ( 2.4, 12.5 )
+   V4               = ( 0, 12.5 )
+   ..
+
+
+$ ---------------------------------------------------------
+$              Wall Parameters
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Fixed and Building Shades
+$ ---------------------------------------------------------
+
+
+
+
+$ ---------------------------------------------------------
+$              Misc Cost Related Objects
+$ ---------------------------------------------------------
+
+
+
+"Baseline Data" = BASELINE        
+   ..
+
+
+$ *********************************************************
+$ **                                                     **
+$ **                Performance Curves                   **
+$ **                                                     **
+$ *********************************************************
+
+
+$ *********************************************************
+$ **                                                     **
+$ **      Floors / Spaces / Walls / Windows / Doors      **
+$ **                                                     **
+$ *********************************************************
+
+SET-DEFAULT FOR EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   ..
+
+SET-DEFAULT FOR WINDOW          
+   X                = {(#P("WIDTH")-#L("WIDTH"))/2}
+   Y                = {(#P("HEIGHT")-#L("HEIGHT"))/2}
+   WIDTH            = 
+{(PARENT3("FLOOR-HEIGHT")*PARENT("WIDTH")*PARAMETER("WWR")/(LOCAL("HEIGHT")))}
+   ..
+
+"EL1 Ground Flr" = FLOOR           
+   AZIMUTH          = 360
+   POLYGON          = "EL1 Floor Polygon"
+   SHAPE            = POLYGON
+   FLOOR-HEIGHT     = 9
+   SPACE-HEIGHT     = 9
+   C-DIAGRAM-DATA   = *Bldg Envelope & Loads 1 Diag Data*
+   ..
+"Bedroom_FL1" = SPACE           
+   X                = -34.8
+   Y                = 12.2
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Bedroom Occ Yrly"
+   LIGHTING-SCHEDUL = ( "Bedroom LTG Yrly" )
+   EQUIP-SCHEDULE   = ( "PlugLoad Bedroom Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.0635
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 1
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   EQUIPMENT-W/AREA = ( 0.0479 )
+   POLYGON          = "EL1 Space Polygon 1"
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL1 North Wall (G.WNW1.E1)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V3
+   SHADING-SURFACE  = YES
+   ..
+"Window 13" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 4
+   WIDTH            = 6
+   ..
+"EL1 West Wall (G.WNW1.E2)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V4
+   SHADING-SURFACE  = YES
+   ..
+"EL1 South Wall (G.WNW1.I1)" = INTERIOR-WALL   
+   NEXT-TO          = "Living Room_FL1"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V1
+   ..
+"EL1 Flr (G.WNW1.U1)" = UNDERGROUND-WALL
+   CONSTRUCTION     = "Slab Construction"
+   LOCATION         = BOTTOM
+   ..
+"Kitchen_FL1" = SPACE           
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Kitchen Occ Yrly"
+   LIGHTING-SCHEDUL = ( "Kitchen Occ Yrly" )
+   EQUIP-SCHEDULE   = ( "PlugLoad Kitchen Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.8135
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 5
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   EQUIPMENT-W/AREA = ( 0.1916 )
+   POLYGON          = "EL1 Space Polygon 2"
+   LOCATION         = FLOOR-V2
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL1 North Wall (G.NE2.E4)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V1
+   SHADING-SURFACE  = YES
+   ..
+"Window 4" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 6
+   ..
+"EL1 East Wall (G.NE2.E5)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V4
+   SHADING-SURFACE  = YES
+   ..
+"Window 6" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 6
+   ..
+"EL1 West Wall (G.NE2.I2)" = INTERIOR-WALL   
+   NEXT-TO          = "Bedroom_FL1"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V2
+   ..
+"EL1 Flr (G.NE2.U2)" = UNDERGROUND-WALL
+   CONSTRUCTION     = "Slab Construction"
+   LOCATION         = BOTTOM
+   ..
+"Living Room_FL1" = SPACE           
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Living Room Occ Yrly"
+   LIGHTING-SCHEDUL = ( "Living Room Occ Yrly" )
+   EQUIP-SCHEDULE   = ( "PlugLoad Living Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.0635
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 5
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   EQUIPMENT-W/AREA = ( 0.1916 )
+   POLYGON          = "EL1 Space Polygon 3"
+   LOCATION         = FLOOR-V6
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL1 South Wall (G.S3.E7)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V1
+   SHADING-SURFACE  = YES
+   ..
+"Window 12" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 6
+   ..
+"EL1 North Wall (G.S3.E8)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V6
+   SHADING-SURFACE  = YES
+   ..
+"EL1 West Wall (G.S3.E9)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V7
+   SHADING-SURFACE  = YES
+   ..
+"Window 8" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 6
+   ..
+"EL1 Roof (G.S3.E10)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "Roof Construction"
+   LOCATION         = TOP
+   POLYGON          = "Polygon 19"
+   SHADING-SURFACE  = YES
+   ..
+"EL1 East Wall (G.S3.I3)" = INTERIOR-WALL   
+   NEXT-TO          = "Living Room_FL1"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V2
+   ..
+"EL1 North Wall (G.S3.I4)" = INTERIOR-WALL   
+   NEXT-TO          = "Kitchen_FL1"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V4
+   ..
+"EL1 Flr (G.S3.U3)" = UNDERGROUND-WALL
+   CONSTRUCTION     = "Slab Construction"
+   LOCATION         = BOTTOM
+   ..
+"Bathroom_FL1" = SPACE           
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Bathroom Occ Yrly"
+   LIGHTING-SCHEDUL = ( "Bathroom Occ Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.197
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 1
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   POLYGON          = "EL1 Space Polygon 4"
+   LOCATION         = FLOOR-V8
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL1 South Wall (G.SE4.E11)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V1
+   SHADING-SURFACE  = YES
+   ..
+"Window 10" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 4
+   WIDTH            = 6
+   ..
+"EL1 East Wall (G.SE4.E12)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V2
+   SHADING-SURFACE  = YES
+   ..
+"EL1 North Wall (G.SE4.I5)" = INTERIOR-WALL   
+   NEXT-TO          = "Kitchen_FL1"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V3
+   ..
+"EL1 West Wall (G.SE4.I6)" = INTERIOR-WALL   
+   NEXT-TO          = "Living Room_FL1"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V4
+   ..
+"EL1 Flr (G.SE4.U4)" = UNDERGROUND-WALL
+   CONSTRUCTION     = "Slab Construction"
+   LOCATION         = BOTTOM
+   ..
+"EL2 Ground Flr" = FLOOR           
+   Z                = 9
+   AZIMUTH          = 360
+   POLYGON          = "EL2 Floor Polygon"
+   SHAPE            = POLYGON
+   FLOOR-HEIGHT     = 9
+   SPACE-HEIGHT     = 9
+   C-DIAGRAM-DATA   = *EL2 Bldg Envelope & Loads 1 Diag Data*
+   ..
+"Hallway_FL2" = SPACE           
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Bathroom Occ Yrly"
+   LIGHTING-SCHEDUL = ( "Bathroom Occ Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.0635
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 1
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   POLYGON          = "EL2 Space Polygon 1"
+   LOCATION         = FLOOR-V5
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL2 West Wall (G.S1.E1)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V1
+   SHADING-SURFACE  = YES
+   ..
+"Window 7" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 4
+   WIDTH            = 6
+   ..
+"EL2 South Wall (G.S1.E2)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V2
+   SHADING-SURFACE  = YES
+   ..
+"Window 11" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 6
+   ..
+"EL2 North Wall (G.S1.E3)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V7
+   SHADING-SURFACE  = YES
+   ..
+"EL2 Roof (G.S1.E4)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "Roof Construction"
+   LOCATION         = TOP
+   SHADING-SURFACE  = YES
+   ..
+"EL2 Flr (G.S1.I1)" = INTERIOR-WALL   
+   CONSTRUCTION     = "EL2 GFlr Construction"
+   INT-WALL-TYPE    = ADIABATIC
+   LOCATION         = BOTTOM
+   ..
+"EL2 East Wall (G.S1.I2)" = INTERIOR-WALL   
+   NEXT-TO          = "Hallway_FL2"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V3
+   ..
+"EL2 North Wall (G.S1.I3)" = INTERIOR-WALL   
+   NEXT-TO          = "Bedroom2_FL2"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V5
+   ..
+"Bathroom_FL2" = SPACE           
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Bathroom Occ Yrly"
+   LIGHTING-SCHEDUL = ( "Bathroom Occ Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.197
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 1
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   POLYGON          = "EL2 Space Polygon 2"
+   LOCATION         = FLOOR-V8
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL2 South Wall (G.SE2.E5)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V1
+   SHADING-SURFACE  = YES
+   ..
+"Window 9" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 4
+   WIDTH            = 6
+   ..
+"EL2 East Wall (G.SE2.E6)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V2
+   SHADING-SURFACE  = YES
+   ..
+"EL2 Roof (G.SE2.E7)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "Roof Construction"
+   LOCATION         = TOP
+   SHADING-SURFACE  = YES
+   ..
+"EL2 Flr (G.SE2.I4)" = INTERIOR-WALL   
+   CONSTRUCTION     = "EL2 GFlr Construction"
+   INT-WALL-TYPE    = ADIABATIC
+   LOCATION         = BOTTOM
+   ..
+"EL2 North Wall (G.SE2.I5)" = INTERIOR-WALL   
+   NEXT-TO          = "Bedroom2_FL2"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V4
+   ..
+"EL2 West Wall (G.SE2.I6)" = INTERIOR-WALL   
+   NEXT-TO          = "Hallway_FL2"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V5
+   ..
+"Bedroom1_FL2" = SPACE           
+   X                = -34.8
+   Y                = 12.2
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Bedroom Occ Yrly"
+   LIGHTING-SCHEDUL = ( "Bedroom LTG Yrly" )
+   EQUIP-SCHEDULE   = ( "PlugLoad Bedroom Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.0635
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 1
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   EQUIPMENT-W/AREA = ( 0.048 )
+   POLYGON          = "EL2 Space Polygon 3"
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL2 North Wall (G.WNW3.E8)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V3
+   SHADING-SURFACE  = YES
+   ..
+"Window 3" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 4
+   WIDTH            = 6
+   ..
+"EL2 West Wall (G.WNW3.E9)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V4
+   SHADING-SURFACE  = YES
+   ..
+"EL2 Roof (G.WNW3.E10)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "Roof Construction"
+   LOCATION         = TOP
+   SHADING-SURFACE  = YES
+   ..
+"EL2 Flr (G.WNW3.I7)" = INTERIOR-WALL   
+   CONSTRUCTION     = "EL2 GFlr Construction"
+   INT-WALL-TYPE    = ADIABATIC
+   LOCATION         = BOTTOM
+   ..
+"EL2 South Wall (G.WNW3.I8)" = INTERIOR-WALL   
+   NEXT-TO          = "Hallway_FL2"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V1
+   ..
+"Bedroom2_FL2" = SPACE           
+   X                = -11.6
+   Y                = 34.5
+   AZIMUTH          = 180
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Bedroom Occ Yrly"
+   LIGHTING-SCHEDUL = ( "Bedroom LTG Yrly" )
+   EQUIP-SCHEDULE   = ( "PlugLoad Bedroom Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.0635
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 1
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   EQUIPMENT-W/AREA = ( 0.048 )
+   POLYGON          = "EL2 Space Polygon 4"
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL2 North Wall (G.N4.E11)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V1
+   SHADING-SURFACE  = YES
+   ..
+"Window 2" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 4
+   WIDTH            = 6
+   ..
+"EL2 Roof (G.N4.E12)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "Roof Construction"
+   LOCATION         = TOP
+   SHADING-SURFACE  = YES
+   ..
+"EL2 Flr (G.N4.I9)" = INTERIOR-WALL   
+   CONSTRUCTION     = "EL2 GFlr Construction"
+   INT-WALL-TYPE    = ADIABATIC
+   LOCATION         = BOTTOM
+   ..
+"EL2 West Wall (G.N4.I10)" = INTERIOR-WALL   
+   NEXT-TO          = "Bedroom1_FL2"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V2
+   ..
+"EL2 East Wall (G.N4.I11)" = INTERIOR-WALL   
+   NEXT-TO          = "Bedroom3_FL2"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V4
+   ..
+"Bedroom3_FL2" = SPACE           
+   SHAPE            = POLYGON
+   ZONE-TYPE        = CONDITIONED
+   PEOPLE-SCHEDULE  = "Master Bedroom LTG Yrly"
+   LIGHTING-SCHEDUL = ( "Master Bedroom LTG Yrly" )
+   EQUIP-SCHEDULE   = ( "PlugLoad MasterBed Yrly" )
+   INF-SCHEDULE     = "ON_ALL_YR"
+   INF-METHOD       = AIR-CHANGE
+   INF-FLOW/AREA    = 0.0635
+   PEOPLE-HG-LAT    = 46
+   PEOPLE-HG-SENS   = 304
+   NUMBER-OF-PEOPLE = 1
+   PEOPLE-HEAT-GAIN = 350
+   LIGHTING-W/AREA  = ( 0.7 )
+   EQUIPMENT-W/AREA = ( 0.048 )
+   POLYGON          = "EL2 Space Polygon 5"
+   LOCATION         = FLOOR-V2
+   C-SUB-SRC-BTUH   = ( 0, 0, 0 )
+   C-SUB-SRC-KW     = ( 0, 0, 0 )
+   C-ACTIVITY-DESC  = *Residential (Multifamily)*
+   ..
+"EL2 North Wall (G.ENE5.E13)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V1
+   SHADING-SURFACE  = YES
+   ..
+"Window 1" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 4
+   WIDTH            = 6
+   ..
+"EL2 East Wall (G.ENE5.E14)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "AG Wall Construction"
+   LOCATION         = SPACE-V4
+   SHADING-SURFACE  = YES
+   ..
+"Window 5" = WINDOW          
+   GLASS-TYPE       = "ASHRAE 2007"
+   WIN-SPEC-METHOD  = GLASS-TYPE-INPUT
+   HEIGHT           = 4
+   WIDTH            = 6
+   ..
+"EL2 Roof (G.ENE5.E15)" = EXTERIOR-WALL   
+   CONSTRUCTION     = "Roof Construction"
+   LOCATION         = TOP
+   SHADING-SURFACE  = YES
+   ..
+"EL2 Flr (G.ENE5.I12)" = INTERIOR-WALL   
+   CONSTRUCTION     = "EL2 GFlr Construction"
+   INT-WALL-TYPE    = ADIABATIC
+   LOCATION         = BOTTOM
+   ..
+"EL2 South Wall (G.ENE5.I13)" = INTERIOR-WALL   
+   NEXT-TO          = "Bathroom_FL2"
+   CONSTRUCTION     = "EL1 IWall Construction"
+   LOCATION         = SPACE-V3
+   ..
+
+
+$ *********************************************************
+$ **                                                     **
+$ **              Electric & Fuel Meters                 **
+$ **                                                     **
+$ *********************************************************
+
+$ ---------------------------------------------------------
+$              Electric Meters
+$ ---------------------------------------------------------
+
+"EM1" = ELEC-METER      
+   TYPE             = UTILITY
+   INTERIOR-POWER   = ( 0.098936 )
+   INTERIOR-SCH     = ( "ON_ALL_YR" )
+   ..
+
+
+$ ---------------------------------------------------------
+$              Fuel Meters
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Master Meters
+$ ---------------------------------------------------------
+
+"MASTER-METERS 1" = MASTER-METERS   
+   MSTR-ELEC-METER  = "EM1"
+   MSTR-FUEL-METER  = "FM1"
+   ..
+
+
+$ *********************************************************
+$ **                                                     **
+$ **      HVAC Circulation Loops / Plant Equipment       **
+$ **                                                     **
+$ *********************************************************
+
+$ ---------------------------------------------------------
+$              Pumps
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Heat Exchangers
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Circulation Loops
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Chillers
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Boilers
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Domestic Water Heaters
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Heat Rejection
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Tower Free Cooling
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Photovoltaic Modules
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Electric Generators
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Thermal Storage
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Ground Loop Heat Exchangers
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Compliance DHW (residential dwelling units)
+$ ---------------------------------------------------------
+
+
+
+$ *********************************************************
+$ **                                                     **
+$ **            Steam & Chilled Water Meters             **
+$ **                                                     **
+$ *********************************************************
+
+$ ---------------------------------------------------------
+$              Steam Meters
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Chilled Water Meters
+$ ---------------------------------------------------------
+
+
+
+$ *********************************************************
+$ **                                                     **
+$ **               HVAC Systems / Zones                  **
+$ **                                                     **
+$ *********************************************************
+
+"Constant Vol" = SYSTEM          
+   TYPE             = RESVVT
+   HEAT-SOURCE      = FURNACE
+   MAX-SUPPLY-T     = 95
+   SUPPLY-FLOW      = 2300
+   FAN-CONTROL      = CONSTANT-VOLUME
+   SUPPLY-KW/FLOW   = 0.0003
+   MIN-FAN-RATIO    = 1
+   COOLING-EIR      = 0.2704
+   HP-SUPP-SOURCE   = NONE
+   FURNACE-HIR      = 1.25
+   CONTROL-ZONE     = "Kitchen_FL1_Zn"
+   ..
+"Bedroom_FL1_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = {PARAMETER("Typical_Zone_Flow")}
+   DESIGN-HEAT-T    = 70
+   HEAT-TEMP-SCH    = "No VAV Heating Yrly"
+   DESIGN-COOL-T    = 74
+   COOL-TEMP-SCH    = "No VAV Cooling Yrly"
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Bedroom_FL1"
+   OA-FLOW/AREA     = 0.11
+   ..
+"Kitchen_FL1_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = 900
+   DESIGN-HEAT-T    = 70
+   HEAT-TEMP-SCH    = "No VAV Heating Yrly"
+   DESIGN-COOL-T    = 74
+   COOL-TEMP-SCH    = "No VAV Cooling Yrly"
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Kitchen_FL1"
+   OA-FLOW/AREA     = 0.11
+   ..
+"Living Room_FL1_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = 300
+   DESIGN-HEAT-T    = 70
+   HEAT-TEMP-SCH    = "No VAV Heating Yrly"
+   DESIGN-COOL-T    = 74
+   COOL-TEMP-SCH    = "No VAV Cooling Yrly"
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Living Room_FL1"
+   OA-FLOW/AREA     = 0.11
+   ..
+"Bathroom_FL1_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = 100
+   DESIGN-HEAT-T    = 70
+   DESIGN-COOL-T    = 74
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Bathroom_FL1"
+   OA-FLOW/AREA     = 0.11
+   ..
+"Hallway_FL2_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = 100
+   DESIGN-HEAT-T    = 70
+   DESIGN-COOL-T    = 74
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Hallway_FL2"
+   OA-FLOW/AREA     = 0.11
+   ..
+"Bathroom_FL2_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = 100
+   DESIGN-HEAT-T    = 70
+   DESIGN-COOL-T    = 74
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Bathroom_FL2"
+   OA-FLOW/AREA     = 0.11
+   ..
+"Bedroom1_FL2_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = {PARAMETER("Typical_Zone_Flow")}
+   DESIGN-HEAT-T    = 70
+   HEAT-TEMP-SCH    = "No VAV Heating Yrly"
+   DESIGN-COOL-T    = 74
+   COOL-TEMP-SCH    = "No VAV Cooling Yrly"
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Bedroom1_FL2"
+   OA-FLOW/AREA     = 0.11
+   ..
+"Bedroom2_FL2_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = {PARAMETER("Typical_Zone_Flow")}
+   DESIGN-HEAT-T    = 70
+   HEAT-TEMP-SCH    = "No VAV Heating Yrly"
+   DESIGN-COOL-T    = 74
+   COOL-TEMP-SCH    = "No VAV Cooling Yrly"
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Bedroom2_FL2"
+   OA-FLOW/AREA     = 0.11
+   ..
+"Bedroom3_FL2_Zn" = ZONE            
+   TYPE             = CONDITIONED
+   ASSIGNED-FLOW    = {PARAMETER("Typical_Zone_Flow")}
+   DESIGN-HEAT-T    = 70
+   HEAT-TEMP-SCH    = "No VAV Heating Yrly"
+   DESIGN-COOL-T    = 74
+   COOL-TEMP-SCH    = "No VAV Cooling Yrly"
+   SIZING-OPTION    = ADJUST-LOADS
+   SPACE            = "Bedroom3_FL2"
+   OA-FLOW/AREA     = 0.11
+   ..
+
+
+$ *********************************************************
+$ **                                                     **
+$ **                Metering & Misc HVAC                 **
+$ **                                                     **
+$ *********************************************************
+
+$ ---------------------------------------------------------
+$              Equipment Controls
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Load Management
+$ ---------------------------------------------------------
+
+
+
+$ *********************************************************
+$ **                                                     **
+$ **                    Utility Rates                    **
+$ **                                                     **
+$ *********************************************************
+
+$ ---------------------------------------------------------
+$              Ratchets
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Block Charges
+$ ---------------------------------------------------------
+
+
+
+$ ---------------------------------------------------------
+$              Utility Rates
+$ ---------------------------------------------------------
+
+
+
+$ *********************************************************
+$ **                                                     **
+$ **                 Output Reporting                    **
+$ **                                                     **
+$ *********************************************************
+
+$ ---------------------------------------------------------
+$              Loads Non-Hourly Reporting
+$ ---------------------------------------------------------
+
+LOADS-REPORT    
+   VERIFICATION     = ( ALL-VERIFICATION )
+   SUMMARY          = ( ALL-SUMMARY )
+   ..
+
+
+$ ---------------------------------------------------------
+$              Systems Non-Hourly Reporting
+$ ---------------------------------------------------------
+
+SYSTEMS-REPORT  
+   VERIFICATION     = ( ALL-VERIFICATION )
+   SUMMARY          = ( ALL-SUMMARY )
+   ..
+
+
+$ ---------------------------------------------------------
+$              Plant Non-Hourly Reporting
+$ ---------------------------------------------------------
+
+PLANT-REPORT    
+   VERIFICATION     = ( ALL-VERIFICATION )
+   SUMMARY          = ( ALL-SUMMARY )
+   ..
+
+
+$ ---------------------------------------------------------
+$              Economics Non-Hourly Reporting
+$ ---------------------------------------------------------
+
+ECONOMICS-REPORT
+   VERIFICATION     = ( ALL-VERIFICATION )
+   SUMMARY          = ( ALL-SUMMARY )
+   ..
+
+
+$ ---------------------------------------------------------
+$              Hourly Reporting
+$ ---------------------------------------------------------
+
+"Bedroom Occ" = REPORT-BLOCK    
+   VARIABLE-TYPE    = "Bedroom_FL1"
+   VARIABLE-LIST    = ( 27 )
+   ..
+"Kitchen Occ" = REPORT-BLOCK    
+   VARIABLE-TYPE    = "Kitchen_FL1"
+   VARIABLE-LIST    = ( 27 )
+   ..
+"Living Room Occ" = REPORT-BLOCK    
+   VARIABLE-TYPE    = "Living Room_FL1"
+   VARIABLE-LIST    = ( 27 )
+   ..
+"Master Bedroom Occ" = REPORT-BLOCK    
+   VARIABLE-TYPE    = "Bedroom3_FL2"
+   VARIABLE-LIST    = ( 27 )
+   ..
+"Bedroom Zone Flow" = REPORT-BLOCK    
+   VARIABLE-TYPE    = "Bedroom_FL1_Zn"
+   VARIABLE-LIST    = ( 14 )
+   ..
+"Kitchen Zone Flow" = REPORT-BLOCK    
+   VARIABLE-TYPE    = "Kitchen_FL1_Zn"
+   VARIABLE-LIST    = ( 14 )
+   ..
+"Living Room Zone Flow" = REPORT-BLOCK    
+   VARIABLE-TYPE    = "Living Room_FL1_Zn"
+   VARIABLE-LIST    = ( 14 )
+   ..
+"Master Bedroom Zone Flow" = REPORT-BLOCK    
+   VARIABLE-TYPE    = "Bedroom3_FL2_Zn"
+   VARIABLE-LIST    = ( 14 )
+   ..
+
+"Zonal Flows" = HOURLY-REPORT   
+   REPORT-SCHEDULE  = "Hourly Report Schedule"
+   REPORT-BLOCK     = ( "Bedroom Occ", "Kitchen Occ", "Living Room Occ", 
+         "Master Bedroom Occ", "Bedroom Zone Flow", "Kitchen Zone Flow", 
+         "Living Room Zone Flow", "Master Bedroom Zone Flow" )
+   ..
+
+
+$ ---------------------------------------------------------
+$              THE END
+$ ---------------------------------------------------------
+
+END ..
+COMPUTE ..
+STOP ..
