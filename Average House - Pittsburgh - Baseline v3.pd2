@@ -1,4 +1,4 @@
-Proj   "Average House - Pittsburgh - Baseline v2"  
+Proj   "Average House - Pittsburgh - Baseline v3"  
    ProgramVersion = "eQUEST 3.65.7173"
    BDBaseVersion = 25
    ProductCode = "eQUEST"
@@ -17,7 +17,7 @@ Proj   "Average House - Pittsburgh - Baseline v2"
    ViewAngle = 30
    InterfaceMode = 1
    AllowWizard = 1
-   NotProjFile = "Average House - Pittsburgh - Baseline v2"
+   NotProjFile = "Average House - Pittsburgh - Baseline v3"
    InputUnitsType = "English"
    OutputUnitsType = "English"
    PreviousName = "Average House - Pittsburgh - Baseline v2"
